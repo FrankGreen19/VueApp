@@ -27,6 +27,7 @@
           <router-link to="/" class="p-2 text-muted">Home</router-link>
           <router-link to="/articletype" class="p-2 text-muted">Категории</router-link>
           <router-link to="/article" class="p-2 text-muted">Статьи</router-link>
+          <router-link to="/user" class="p-2 text-muted">Пользователи</router-link>
           <a class="p-2 text-muted" href="#">Дизайн</a>
           <a class="p-2 text-muted" href="#">Культура</a>
           <a class="p-2 text-muted" href="#">Наука</a>
