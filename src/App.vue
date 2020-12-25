@@ -24,14 +24,13 @@
 
       <div class="nav-scroller pb-1 mb-2">
         <nav class="nav d-flex justify-content-between">
-          <router-link to="/">Home</router-link> |
-          <router-link to="/articletype" class="p-2 text-muted">Категория</router-link>
-          <a class="p-2 text-muted" href="#">Спорт</a>
+          <router-link to="/" class="p-2 text-muted">Home</router-link>
+          <router-link to="/articletype" class="p-2 text-muted">Категории</router-link>
+          <router-link to="/article" class="p-2 text-muted">Статьи</router-link>
           <a class="p-2 text-muted" href="#">Дизайн</a>
           <a class="p-2 text-muted" href="#">Культура</a>
           <a class="p-2 text-muted" href="#">Наука</a>
           <a class="p-2 text-muted" href="#">Политика</a>
-          <a class="p-2 text-muted" href="#">Здравоохранение</a>
         </nav>
       </div>
     </div>

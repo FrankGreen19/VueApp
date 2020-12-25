@@ -2,7 +2,10 @@
   <div class="articletype">
 
       <div class="container">
-          <h1 class="text-center">Категории новостей</h1>
+
+          <div class="my-4 p-1 rounded-pill border border-dark">
+              <h1 class="text-center">Категории</h1>
+          </div>
 
           <div class="row">
               <div class="col-lg-4">
@@ -25,46 +28,32 @@
                   <table class="mt-3 table table-hover">
                       <thead class="bg-dark text-light">
                           <tr>
-                              <th class="my-auto">ID</th>
-                              <th>
-                                  <div class="row">
-
-                                      <div class="col-lg-6">
-                                          Name
+                              <th scope="col">ID</th>
+                              <th scope="col">Name</th>
+                              <th scope="col">
+                                  <form class="form-inline" @submit.prevent="getById()">
+                                      <div class="md-form">
+                                          <input class="form-control mr-sm-2" type="text" placeholder="Поиск..." v-model="id">
                                       </div>
-                                          <form class="form-inline" @submit.prevent="getById()">
-                                              <div class="md-form">
-                                                  <input class="form-control mr-sm-2" type="text" placeholder="Поиск..." v-model="id">
-                                              </div>
-                                          </form>
-                                      <div class="col-lg-6"></div>
-                                  </div>
+                                  </form>
                               </th>
                           </tr>
                       </thead>
                       <tbody v-for="article of articles">
                           <tr>
-                              <td>{{ article.id }}</td>
+                              <td >{{ article.id }}</td>
+                              <td>{{ article.name }}</td>
                               <td>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        {{ article.name }}
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <button type="submit" class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#exampleModal"
-                                                v-on:click="moveData(article.id)">
-                                            Изменить
-                                        </button>
-                                        <br>
-                                        <button type="submit" class="mt-1 btn btn-sm btn-outline-danger"
-                                                v-on:click="deleteRecording(article.id)">
-                                            Удалить
-                                        </button>
-                                    </div>
-                                </div>
+                                  <button type="submit" class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#exampleModal"
+                                          v-on:click="moveData(article.id)">
+                                    Изменить
+                                    </button>
+                                  <br>
+                                  <button type="submit" class="mt-1 btn btn-sm btn-outline-danger"
+                                          v-on:click="deleteRecording(article.id)">
+                                      Удалить
+                                  </button>
                               </td>
-
                           </tr>
                       </tbody>
                   </table>
