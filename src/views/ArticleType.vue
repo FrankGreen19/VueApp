@@ -1,0 +1,192 @@
+<template>
+  <div class="articletype">
+
+      <div class="container">
+          <h1 class="text-center">Категории новостей</h1>
+
+          <div class="row">
+              <div class="col-lg-4">
+                  <div class="mt-3 card">
+                      <div class="card-header text-center bg-dark text-white">
+                          <p></p>
+                          <br>
+                      </div>
+                      <div class="card-body">
+                          <form @submit="insert">
+                              <input class="form-control" type="text" placeholder="Название" v-model="articleTypeInsert.name">
+                              <button class="mt-2 btn btn-outline-dark btn-block" type="submit">Добавить</button>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="col-lg-8">
+
+                  <table class="mt-3 table table-hover">
+                      <thead class="bg-dark text-light">
+                          <tr>
+                              <th class="my-auto">ID</th>
+                              <th>
+                                  <div class="row">
+
+                                      <div class="col-lg-6">
+                                          Name
+                                      </div>
+                                          <form class="form-inline" @submit.prevent="getById()">
+                                              <div class="md-form">
+                                                  <input class="form-control mr-sm-2" type="text" placeholder="Поиск..." v-model="id">
+                                              </div>
+                                          </form>
+                                      <div class="col-lg-6"></div>
+                                  </div>
+                              </th>
+                          </tr>
+                      </thead>
+                      <tbody v-for="article of articles">
+                          <tr>
+                              <td>{{ article.id }}</td>
+                              <td>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        {{ article.name }}
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <button type="submit" class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#exampleModal"
+                                                v-on:click="moveData(article.id)">
+                                            Изменить
+                                        </button>
+                                        <br>
+                                        <button type="submit" class="mt-1 btn btn-sm btn-outline-danger"
+                                                v-on:click="deleteRecording(article.id)">
+                                            Удалить
+                                        </button>
+                                    </div>
+                                </div>
+                              </td>
+
+                          </tr>
+                      </tbody>
+                  </table>
+
+              </div>
+          </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Редактирование</h5>
+                  </div>
+                  <div class="modal-body">
+                       <form @submit="edit">
+                           <input class="form-control" type="text" placeholder="ID" readonly v-bind:value="articleType.id">
+                           <input class="mt-1 form-control" type="text" placeholder="Название" required v-model="articleType.name">
+                           <hr>
+                           <div class="d-flex justify-content-end">
+                               <button type="submit" class="mt-1 btn btn-primary">Сохранить</button>
+                           </div>
+                       </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+  </div>
+</template>
+
+<script>
+  import Article from "@/components/Article";
+  
+  export default {
+      name: 'Articletype',
+
+      methods: {
+          insert() {
+              fetch('http://127.0.0.1:8081/articletype', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                      name: this.articleTypeInsert.name
+                  })
+              })
+                  .then(response => response.json())
+                  .then(json => {
+                      this.articleTypeInsert = json
+                  })
+          },
+          getById() {
+              fetch('http://127.0.0.1:8081/articletype/' + this.id)
+                  .then(response => response.json())
+                  .then(json => {
+                      this.articles = [json]
+                  })
+          },
+          moveData(recordingId) {
+              fetch('http://127.0.0.1:8081/articletype/' + recordingId)
+                  .then(response => response.json())
+                  .then(json => {
+                      this.articleType = json
+                      console.log(this.articleType.name)
+                  })
+          },
+          edit() {
+              fetch('http://127.0.0.1:8081/articletype/' + this.articleType.id, {
+                          method: 'PUT',
+                          headers: {
+                              'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify({
+                              id: this.articleType.id,
+                              name: this.articleType.name
+                          })
+                      })
+                  .then(response => response.json())
+                  .then(json => {
+                      this.articleType = json
+                  })
+          },
+          deleteRecording(recordingId) {
+              console.log(recordingId)
+              if (confirm("Вы уверены?")) {
+                  fetch('http://127.0.0.1:8081/articletype/' + recordingId, {
+                      method: 'DELETE',
+                      headers: {
+                          'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({
+                          id: recordingId
+                      })
+                  })
+                      .then(response => response.json())
+                      .then(json => {
+                          this.articleType = json
+                      })
+              }
+          }
+      },
+
+    data() {
+          return {
+            articles: [],
+              id: "",
+              articleType: {},
+              articleTypeInsert: {}
+          }
+    },
+    mounted() {
+          fetch('http://127.0.0.1:8081/articletype')
+                  .then(response => response.json())
+                  .then(json => {
+                    this.articles = json
+                  })
+    },
+    components: {
+         Article
+    }
+  }
+</script>
