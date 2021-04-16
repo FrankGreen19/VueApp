@@ -4,7 +4,7 @@
         <div class="container">
 
             <div class="my-4 p-1 rounded-pill border border-dark">
-                <h1 class="text-center"> Статьи </h1>
+                <h1 class="text-center">Пользователи</h1>
             </div>
 
             <div class="row">
@@ -15,7 +15,7 @@
                             <br>
                         </div>
                         <div class="card-body">
-                            <form @submit="insert">
+                            <form @submit.prevent="insert">
                                 <input class="form-control" type="text" placeholder="Почта" v-model="userInsert.email">
                                 <input class="mt-1 form-control" type="text" placeholder="Пароль" v-model="userInsert.password">
                                 <input class="mt-1 form-control" type="text" placeholder="Телефон" v-model="userInsert.phone">
@@ -73,7 +73,7 @@
                         <h5 class="modal-title" id="exampleModalLabel">Редактирование</h5>
                     </div>
                     <div class="modal-body">
-                        <form @submit="edit">
+                        <form @submit.prevent="edit">
                             <input class="form-control" type="text" placeholder="ID" readonly v-bind:value="user.id">
                             <input class="mt-1 form-control" type="text" placeholder="Почта" v-model="user.email">
                             <input class="mt-1 form-control" type="text" placeholder="Пароль" v-model="user.password">
@@ -100,6 +100,13 @@
 
         methods: {
             insert() {
+                this.users.push({
+                    email: this.userInsert.email,
+                    password: this.userInsert.password,
+                    phone: this.userInsert.phone,
+                    agreement: this.userInsert.agreement,
+                })
+                this.refresh()
                 fetch('http://127.0.0.1:8081/user', {
                     method: 'POST',
                     headers: {
@@ -133,6 +140,14 @@
                     })
             },
             edit() {
+                this.users = this.users.filter(t => t.id !== this.user.id)
+                this.users.push({
+                    id: this.user.id,
+                    email: this.user.email,
+                    password: this.user.password,
+                    phone: this.user.phone,
+                    agreement: this.user.agreement
+                })
                 fetch('http://127.0.0.1:8081/user/' + this.user.id, {
                     method: 'PUT',
                     headers: {
@@ -140,12 +155,10 @@
                     },
                     body: JSON.stringify({
                         id: this.user.id,
-                        articleTypeId: this.user.articleTypeId,
-                        authorId: this.user.authorId,
-                        header: this.user.header,
-                        main: this.user.main,
-                        date: this.user.date,
-                        priority: this.user.priority
+                        email: this.user.email,
+                        password: this.user.password,
+                        phone: this.user.phone,
+                        agreement: this.user.agreement,
                     })
                 })
                     .then(response => response.json())
@@ -154,8 +167,8 @@
                     })
             },
             deleteRecording(recordingId) {
-                console.log(recordingId)
                 if (confirm("Вы уверены?")) {
+                    this.users = this.users.filter(t => t.id !== recordingId)
                     fetch('http://127.0.0.1:8081/user/' + recordingId, {
                         method: 'DELETE',
                         headers: {
@@ -170,6 +183,13 @@
                             this.user = json
                         })
                 }
+            },
+            refresh() {
+                fetch('http://127.0.0.1:8081/user')
+                    .then(response => response.json())
+                    .then(json => {
+                        this.users = json
+                    })
             }
         },
 

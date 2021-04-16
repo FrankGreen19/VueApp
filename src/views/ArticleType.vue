@@ -15,7 +15,7 @@
                           <br>
                       </div>
                       <div class="card-body">
-                          <form @submit="insert">
+                          <form @submit.prevent="insert">
                               <input class="form-control" type="text" placeholder="Название" v-model="articleTypeInsert.name">
                               <button class="mt-2 btn btn-outline-dark btn-block" type="submit">Добавить</button>
                           </form>
@@ -70,7 +70,7 @@
                       <h5 class="modal-title" id="exampleModalLabel">Редактирование</h5>
                   </div>
                   <div class="modal-body">
-                       <form @submit="edit">
+                       <form @submit.prevent="edit">
                            <input class="form-control" type="text" placeholder="ID" readonly v-bind:value="articleType.id">
                            <input class="mt-1 form-control" type="text" placeholder="Название" required v-model="articleType.name">
                            <hr>
@@ -94,6 +94,10 @@
 
       methods: {
           insert() {
+              this.articles.push({
+                  name: this.articleTypeInsert.name
+              })
+              this.refresh()
               fetch('http://127.0.0.1:8081/articletype', {
                   method: 'POST',
                   headers: {
@@ -103,10 +107,6 @@
                       name: this.articleTypeInsert.name
                   })
               })
-                  .then(response => response.json())
-                  .then(json => {
-                      this.articleTypeInsert = json
-                  })
           },
           getById() {
               fetch('http://127.0.0.1:8081/articletype/' + this.id)
@@ -120,10 +120,14 @@
                   .then(response => response.json())
                   .then(json => {
                       this.articleType = json
-                      console.log(this.articleType.name)
                   })
           },
           edit() {
+              this.articles = this.articles.filter(t => t.id !== this.articleType.id)
+              this.articles.push({
+                  id: this.articleType.id,
+                  name: this.articleType.name
+              })
               fetch('http://127.0.0.1:8081/articletype/' + this.articleType.id, {
                           method: 'PUT',
                           headers: {
@@ -142,6 +146,7 @@
           deleteRecording(recordingId) {
               console.log(recordingId)
               if (confirm("Вы уверены?")) {
+                  this.articles = this.articles.filter(t => t.id !== recordingId)
                   fetch('http://127.0.0.1:8081/articletype/' + recordingId, {
                       method: 'DELETE',
                       headers: {
@@ -151,11 +156,14 @@
                           id: recordingId
                       })
                   })
-                      .then(response => response.json())
-                      .then(json => {
-                          this.articleType = json
-                      })
               }
+          },
+          refresh() {
+              fetch('http://127.0.0.1:8081/user')
+                  .then(response => response.json())
+                  .then(json => {
+                      this.articles = json
+                  })
           }
       },
 
