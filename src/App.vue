@@ -8,7 +8,7 @@
             <a class="text-muted" href="#">Подписка</a>
           </div>
           <div class="col-4 text-center">
-            <a href="/" class="mx-auto blog-header-logo text-dark font-weight-bold" id="headerLogo" >NewsSite</a>
+            <a href="/" class="mx-auto blog-header-logo text-dark font-weight-bold" id="headerLogo" >Template</a>
           </div>
           <div class="col-4 d-flex justify-content-end align-items-center">
             <a class="text-muted" href="#" aria-label="Search">
@@ -24,13 +24,18 @@
 
       <div class="nav-scroller pb-1 mb-2">
         <nav class="nav d-flex justify-content-between">
-          <router-link to="/articletype" class="p-2 text-muted">Категории</router-link>
-          <router-link to="/article" class="p-2 text-muted">Статьи</router-link>
-          <router-link to="/user" class="p-2 text-muted">Пользователи</router-link>
-          <a class="p-2 text-muted" href="#">Дизайн</a>
-          <a class="p-2 text-muted" href="#">Культура</a>
-          <a class="p-2 text-muted" href="#">Наука</a>
-          <a class="p-2 text-muted" href="#">Политика</a>
+          <router-link to="/form" class="p-2 text-muted">Задать вопрос</router-link>
+          <router-link to="/forms_view" class="p-2 text-muted">Вопросы</router-link>
+          <a class="p-2 text-muted" href="#">Заглушка</a>
+          <a class="p-2 text-muted" href="#">Заглушка</a>
+          <a class="p-2 text-muted" href="#">Заглушка</a>
+<!--          <router-link to="/articletype" class="p-2 text-muted">Категории</router-link>-->
+<!--          <router-link to="/article" class="p-2 text-muted">Статьи</router-link>-->
+<!--          <router-link to="/user" class="p-2 text-muted">Пользователи</router-link>-->
+<!--          <a class="p-2 text-muted" href="#">Дизайн</a>-->
+<!--          <a class="p-2 text-muted" href="#">Культура</a>-->
+<!--          <a class="p-2 text-muted" href="#">Наука</a>-->
+<!--          <a class="p-2 text-muted" href="#">Политика</a>-->
         </nav>
       </div>
     </div>

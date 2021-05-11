@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import ArticleType from '../views/ArticleType.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +27,16 @@ const routes = [
     path: '/user',
     name: 'User',
     component: () => import(/* webpackChunkName: "about" */ '../views/User.vue')
+  },
+  {
+    path: '/form',
+    name: 'Form',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Form.vue')
+  },
+  {
+    path: '/forms_view',
+    name: 'FormsView',
+    component: () => import(/* webpackChunkName: "about" */ '../views/FormsView.vue')
   }
 ]
 
